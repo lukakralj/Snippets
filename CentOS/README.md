@@ -1,0 +1,2 @@
+## Description
+- <i><b>.bashrc:</b></i> contains a script that displays the current git branch when in terminal; if colors are enabled the prompt line is also in colours; each command starts on a new line for clarity.
