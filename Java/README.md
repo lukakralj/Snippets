@@ -1,2 +1,3 @@
 ## Description
 - <i><b>HttpRequest:</b></i> contains useful classes for creating POST and GET requests with Java
+- <i><b>ovalButton:</b></i> contains two very useful classes to work with Java Swing. One class is for creating a panel with a tiled background (same image repeats in every row and column). The other class creates an Oval-shaped JButton. The shape can be oval/circular or capsule-like, and the button clicks are only accepted if they happend withing the borders of the shape.
