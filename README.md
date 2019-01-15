@@ -12,7 +12,7 @@ In hope that someone else might also find it useful I share it publicly.
 
 ### Disclaimer
 
-- I did not write the scripts unless I specified myseld as the author in the comments within the script.
+- I did not write the scripts unless I specified myself as the author in the comments within the script.
 
 - I try to add the source of the scripts, however, some scripts were produced by combining snippets from different sources.
 
