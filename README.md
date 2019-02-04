@@ -4,10 +4,9 @@
 
 ## Overview
 
-Quite often I find some short scripts that turn out to be the key snippet of code I need for my work. 
+Quite often I find some short scripts/programs that turn out to be the key snippet of code I need for my work. 
 Instead of looking them up every time, I decided to save them here on Github so that I can access them from every platform.
 In hope that someone else might also find it useful I share it publicly.
-
 
 
 ### Disclaimer
@@ -25,3 +24,5 @@ In hope that someone else might also find it useful I share it publicly.
 - <i><b>CentOS:</b></i> contains some files that are handy for linux os
 
 - <i><b>Java:</b></i> contains useful classes or snippets of classes for work with java
+
+- <i><b>Scala:</b></i> constains some snippets of code in Scala
