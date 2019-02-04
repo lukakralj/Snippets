@@ -1,4 +1,4 @@
-
+// Author: Luka Kralj
 
 class Node(val value: String, val leftChild: Option[Node], val rightChild: Option[Node]) {
 
