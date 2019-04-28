@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 public class Logger {
     private static boolean consoleOutput;
     private static boolean fileOutput;
+    private static boolean autoFlush;
 
     private static StringBuffer buffer = new StringBuffer();
     private static File file;
@@ -24,14 +25,17 @@ public class Logger {
      *
      * @param consoleOutputIn True if we want to output to the console, false if not.
      * @param fileOutputIn True if we want to output to the file, false if not.
+     * @param autoFlushIn True if you want all the logs to be immediately outputed, false if not.
+     *                    N.B. that outputting to the file on each log might impact overall performance a bit.
      */
-    public static void startLogger(boolean consoleOutputIn, boolean fileOutputIn) {
+    public static void startLogger(boolean consoleOutputIn, boolean fileOutputIn, boolean autoFlushIn) {
         started = true;
         consoleOutput = consoleOutputIn;
         fileOutput = fileOutputIn;
+        autoFlush = autoFlushIn;
         if (fileOutput) {
             String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Timestamp(System.currentTimeMillis()));
-            String filename = "logger/logs/debug_log_" + timestamp + ".log"; // append timestamp and extension
+            String filename = "log/debug_log_" + timestamp + ".log"; // append timestamp and extension
             file = new File(filename);
             try {
                 file.createNewFile();
@@ -47,11 +51,11 @@ public class Logger {
     }
 
     /**
-     * @see #startLogger(boolean, boolean)
+     * @see #startLogger(boolean, boolean, boolean)
      * By default the logger will be outputting to the console but not into a file.
      */
     public static void startLogger() {
-        startLogger(true, false);
+        startLogger(true, false, false);
     }
 
     /**
@@ -76,7 +80,13 @@ public class Logger {
             default: buffer.append("[unknown]"); break;
         }
 
-        buffer.append(" ").append(message).append("\n");
+        buffer.append(" ").append(message);
+        if (autoFlush) {
+            flush();
+        }
+        else {
+            buffer.append("\n");
+        }
     }
 
     /**
@@ -105,7 +115,7 @@ public class Logger {
                 fw = new FileWriter(file, true);
                 bw = new BufferedWriter(fw);
                 out = new PrintWriter(bw);
-                out.print(buffer);
+                out.println(buffer);
                 out.close();
                 bw.close();
                 fw.close();
