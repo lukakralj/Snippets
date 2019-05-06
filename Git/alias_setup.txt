@@ -1,0 +1,10 @@
+git config --global alias.co checkout
+git config --global alias.b branch
+git config --global alias.c commit
+git config --global alias.s status
+git config --global alias.a "add --all"
+git config --global alias.u "add -u"
+git config --global alias.unst "reset HEAD"
+git config --global alias.p push
+git config --global alias.l "log -3"
+git config --global alias.f "fetch -a"
