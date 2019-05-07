@@ -1,4 +1,4 @@
 ## Description
 - <i><b>HttpRequest:</b></i> contains useful classes for creating POST and GET requests with Java
-- <i><b>ovalButton:</b></i> contains two very useful classes to work with Java Swing. One class is for creating a panel with a tiled background (same image repeats in every row and column). The other class creates an Oval-shaped JButton. The shape can be oval/circular or capsule-like, and the button clicks are only accepted if they happend withing the borders of the shape.
+- <i><b>ovalButton:</b></i> contains two very useful classes to work with Java Swing. One class is for creating a panel with a tiled background (same image repeats in every row and column). The other class creates an Oval-shaped JButton. The shape can be oval/circular or capsule-like, and the button clicks are only accepted if they happen within the borders of the shape.
 - <i><b>SimpleLogger:</b></i> contains a very simple logging class that enables logging to the console and to the file. If all printing statements in the program are replaced with calls to this class, we can gain a lot more control over uniform formatting and turn off all the logging very easily before production.

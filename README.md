@@ -5,7 +5,7 @@
 ## Overview
 
 Quite often I find some short scripts/programs that turn out to be the key snippet of code I need for my work. 
-Instead of looking them up every time, I decided to save them here on Github so that I can access them from every platform.
+Instead of looking them up every time, I decided to save them here on GitHub so that I can access them from every platform.
 In hope that someone else might also find it useful I share it publicly.
 
 
@@ -21,8 +21,10 @@ In hope that someone else might also find it useful I share it publicly.
 
 ## Folders description:
 
-- <i><b>CentOS:</b></i> contains some files that are handy for linux os
+- <i><b>Linux:</b></i> contains some files that are handy for Linux OS
 
 - <i><b>Java:</b></i> contains useful classes or snippets of classes for work with java
 
-- <i><b>Scala:</b></i> constains some snippets of code in Scala
+- <i><b>Scala:</b></i> contains some snippets of code in Scala
+
+- <i><b>Git:</b></i> contains git scripts (setup etc.)
