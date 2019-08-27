@@ -1,7 +1,7 @@
 /**
  * Gpio class helps managing the GPIO pins on the Dragonboard 410c.
  * This will only work for the board that runs Debian. Must be ran as
- * sudo user.
+ * root user as it needs to read/write to the root files.
  * 
  * @author Luka Kralj
  * @version 1.0
@@ -32,9 +32,10 @@ string exec(const string);
 int convertPhysicalPin(int);
 
 class Gpio {
-
 	private:
+		/** Pin number that is used in the commands. NOT the physical pin number. */
 		string pinNo;
+		/** Pin direction ("in"/"out"). */
 		string dir;
 
 		string getDirPath();
@@ -50,18 +51,28 @@ class Gpio {
 		void unexportPin();
 };
 
+/**
+ * Thrown if a direction other than "in" or "out" was set to the pin.
+ */
 struct InvalidDirectionException : public exception {
    const char* what () const throw () {
       return "Unknown direction set to the pin.";
    }
 };
 
+/**
+ * Thrown if the physical pin number is not in the valid range.
+ */
 struct InvalidPhysicalPinException : public exception {
    const char* what () const throw () {
       return "Invalid pin number - could not be exported.";
    }
 };
 
+/**
+ * Thrown if an invalid operation is called on a pin of certain type.
+ * For example, a value is tried to be set on the pin of type "in".
+ */
 struct InvalidOperationException : public exception {
    const char* what () const throw () {
       return "Invalid operation for this pin type.";
@@ -71,11 +82,11 @@ struct InvalidOperationException : public exception {
 /**
  * Initialise pin by exporting it and setting its direction.
  * In practice, pins won't change their direction often, hence changing
- * the direction can be done by unexporting the current pin and then re-initialise 
+ * the direction can be done by unexporting the current pin and then re-initialising 
  * it again with a different direction.
  * 
  * @param physicalPin Physical number of the pin as shown on the board schematic; 
- * 						must be between 24 and 34 inclusive.
+ * 					  must be between 24 and 34, inclusive.
  * @param direction "out" for output pin, "in" for input pin.
  */
 Gpio::Gpio(int physicalPin, string direction) {
@@ -88,18 +99,16 @@ Gpio::Gpio(int physicalPin, string direction) {
 	exportPin();
 
 	// set direction
-	string cmd = "echo " + dir + " > " + getDirPath();
-	exec(cmd);
+	exec("echo " + dir + " > " + getDirPath());
 }
 
 /**
  * Get direction of the pin.
  * 
- * @return "in" if this is input pin, "out" if this is output pin
+ * @return "in" if this is an input type pin, "out" if this is an output type pin.
  */
 string Gpio::getDirection() {
-	string cmd = "cat " + getDirPath();
-	return exec(cmd);
+	return exec("cat " + getDirPath());
 }
 
 /**
@@ -115,30 +124,29 @@ int Gpio::readValue() {
 /**
  * Set high voltage on the pin (turn it "on").
  * 
- * @throws InvalidOperationException if this is an input pin.
+ * @throws InvalidOperationException if this is an input type pin.
  */
 void Gpio::setHigh() {
 	if (dir == IN) {
 		throw InvalidOperationException();
 	}
-	string cmd = "echo 1 > " + getValuePath();
-	exec(cmd); 
+	exec("echo 1 > " + getValuePath()); 
 }
 
 /**
  * Set low voltage on the pin (turn it "off").
  * 
- * @throws InvalidOperationException if this is an input pin.
+ * @throws InvalidOperationException if this is an input type pin.
  */
 void Gpio::setLow() {
 	if (dir == IN) {
 		throw InvalidOperationException();
 	}
-	string cmd = "echo 0 > " + getValuePath();
-	exec(cmd); 
+	exec("echo 0 > " + getValuePath()); 
 }
 
 /**
+ * 
  * @return Absolute path for "direction" file of the pin.
  */
 string Gpio::getDirPath() {
@@ -146,6 +154,7 @@ string Gpio::getDirPath() {
 }
 
 /**
+ * 
  * @return Absolute path for "value" file of the pin.
  */
 string Gpio::getValuePath() {
@@ -161,12 +170,12 @@ void Gpio::exportPin() {
 }
 
 /**
- * Unexports pin. Pin cannot be used after unexporting. Must
- * be called at the end of the program to clean up.
+ * Unexports pin. Pin cannot be used after unexporting. 
+ * 
+ * N.B. Must be called at the end of the program to clean up.
  */
 void Gpio::unexportPin() {
-	string cmd = "echo " + pinNo + " > /sys/class/gpio/unexport";
-	exec(cmd);
+	exec("echo " + pinNo + " > /sys/class/gpio/unexport");
 }
 
 /**
@@ -227,7 +236,7 @@ string exec(string cmd) {
 	}
 	else {
 		// Remove final line break \n if there is any.
-		if (result.at(result.size() - 1) == '\n') {
+		if (result.size() > 0 && result.at(result.size() - 1) == '\n') {
 			result = result.substr(0, result.size() - 1);
 		}
 	}
