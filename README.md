@@ -32,3 +32,5 @@ In hope that someone else might also find it useful I share it publicly.
 - <i><b>Dragonboard_410c</b></i> contains files and classes that can be used when programming a Dragoboard 410c device.
 
 - <i><b>js</b></i> contains javascript files/modules.
+
+- <i><b>VSCode</b></i> contains settings for VS code
