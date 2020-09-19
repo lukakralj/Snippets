@@ -97,7 +97,7 @@ picturesObserver.schedule(pictures_handler, picturesFolder, recursive=False)
 picturesObserver.start()
 
 
-
+os.system("notify-send -u low -t 5000 \"AutoMove.py has started\"")
 try:
     while True:
         time.sleep(10)
