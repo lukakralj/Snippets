@@ -47,6 +47,12 @@ class DownloadsHandler(FileSystemEventHandler):
             if os.path.isdir(src) or fExt in ignoreExtensions:
                 continue
 
+            now = time.mktime(time.localtime())
+            fLastMod = time.mktime(time.localtime(os.path.getmtime(src)))
+
+            if (now - fLastMod)/60 < 30: # Skip less than 30 min old files
+                continue
+
             if fExt in extFolders.keys():
                 dest = downloadsFolder + "/" + extFolders[fExt]
             else:
