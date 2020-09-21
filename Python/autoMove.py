@@ -23,6 +23,7 @@ downloadsFolder = "/home/lukakralj/Downloads"
 extFolders = {
     ".zip": "Archives",
     ".gz": "Archives",
+    ".xz": "Archives",
     ".tar": "Archives",
     ".jpg": "Images",
     ".jpeg": "Images",
@@ -35,7 +36,7 @@ extFolders = {
     ".docx": "Documents",
     ".odt": "Documents",
 }
-ignoreExtensions = ["crdownload"]
+ignoreExtensions = [".crdownload"]
 
 class DownloadsHandler(FileSystemEventHandler):
     def on_modified(self, event):
