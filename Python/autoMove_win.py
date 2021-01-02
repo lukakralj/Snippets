@@ -17,7 +17,8 @@ from watchdog.events import FileSystemEventHandler
 ##  Downloads folder  #
 #######################
 
-downloadsFolder = r"C:\Users\Luka Kralj\Downloads"
+baseDownloadsFolder = "C:/Users/Luka Kralj/Downloads"
+downloadsFolder = os.path.abspath(baseDownloadsFolder)
 
 # Extensions to sort
 extFolders = {
@@ -30,52 +31,60 @@ extFolders = {
     ".png": "Images",
     ".gif": "Images",
     ".mp4": "Videos",
+    ".webm": "Videos",
     ".pdf": "PDFs",
     ".pptx": "Documents",
     ".xlsx": "Documents",
     ".docx": "Documents",
+    ".doc": "Documents",
     ".odt": "Documents",
-    ".exe": "WinExecutables"
+    ".exe": "WinExecutables",
+    ".msi": "WinExecutables"
 }
-ignoreExtensions = [".crdownload"]
+ignoreExtensions = [".crdownload", ".ini"]
 
-class DownloadsHandler(FileSystemEventHandler):
-    def on_modified(self, event):
-        for filename in os.listdir(downloadsFolder):
-            fExt = os.path.splitext(filename)[1].lower()
-            src = downloadsFolder + "\\" + filename
+def on_modified():
+    print("modified")
+    for filename in os.listdir(downloadsFolder):
+        fExt = os.path.splitext(filename)[1].lower()
+        src = os.path.abspath(baseDownloadsFolder + "/" + filename)
 
-            if os.path.isdir(src) or fExt in ignoreExtensions:
-                continue
+        if os.path.isdir(src) or fExt in ignoreExtensions:
+            continue
 
-            now = time.mktime(time.localtime())
-            fLastMod = time.mktime(time.localtime(os.path.getmtime(src)))
+        now = time.mktime(time.localtime())
+        fLastMod = time.mktime(time.localtime(os.path.getmtime(src)))
 
-            if (now - fLastMod)/60 < 30: # Skip less than 30 min old files
-                continue
+        if (now - fLastMod)/60 < 30: # Skip less than 30 min old files
+            continue
 
-            if fExt in extFolders.keys():
-                dest = downloadsFolder + "\\" + extFolders[fExt]
-            else:
-                dest = downloadsFolder + "\\Other"
+        if fExt in extFolders.keys():
+            dest = os.path.abspath(baseDownloadsFolder + "/" + extFolders[fExt])
+        else:
+            dest = os.path.abspath(baseDownloadsFolder + "/Other")
 
-            try:
-                os.mkdir(dest)
-            except FileExistsError:
-                pass 
-            
-            os.rename(src, dest + "\\" + filename)
+        try:
+            os.mkdir(dest)
+        except FileExistsError:
+            pass 
+        
+        os.rename(src, os.path.abspath(dest + "/" + filename))
 
-downloads_handler = DownloadsHandler()
-downloadsObserver = Observer()
-downloadsObserver.schedule(downloads_handler, downloadsFolder, recursive=False)
-downloadsObserver.start()
 
+lastList = os.listdir(downloadsFolder)
+
+def hasChanged():
+    global lastList
+    newList = os.listdir(downloadsFolder)
+    toReturn = (lastList != newList)
+    lastList = newList
+    return toReturn
 
 try:
     while True:
         time.sleep(10)
-except KeyboardInterrupt:
-    downloadsObserver.stop()
+        if hasChanged():
+            on_modified()
 
-downloadsObserver.join()
+except KeyboardInterrupt:
+    pass
