@@ -17,7 +17,7 @@ from watchdog.events import FileSystemEventHandler
 ##  Downloads folder  #
 #######################
 
-baseDownloadsFolder = "C:/Users/Luka Kralj/Downloads"
+baseDownloadsFolder = "C:/Users/Luka Kralj/OneDrive/Downloads"
 downloadsFolder = os.path.abspath(baseDownloadsFolder)
 
 # Extensions to sort
@@ -44,7 +44,6 @@ extFolders = {
 ignoreExtensions = [".crdownload", ".ini"]
 
 def on_modified():
-    print("modified")
     for filename in os.listdir(downloadsFolder):
         fExt = os.path.splitext(filename)[1].lower()
         src = os.path.abspath(baseDownloadsFolder + "/" + filename)
@@ -68,7 +67,15 @@ def on_modified():
         except FileExistsError:
             pass 
         
-        os.rename(src, os.path.abspath(dest + "/" + filename))
+        attempt = 1
+        while True:
+            try:
+                os.rename(src, os.path.abspath(dest + "/" + filename))
+                break
+            except FileExistsError:
+                # File exists, add suffix and retry
+                filename = filename[:-len(fExt)] + "_" + str(attempt) + fExt
+                attempt += 1
 
 
 lastList = os.listdir(downloadsFolder)
