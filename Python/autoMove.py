@@ -35,6 +35,7 @@ extFolders = {
     ".xlsx": "Documents",
     ".docx": "Documents",
     ".odt": "Documents",
+    ".deb": "deb_packages"
 }
 ignoreExtensions = [".crdownload"]
 
