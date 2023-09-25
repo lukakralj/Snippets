@@ -524,6 +524,7 @@ public class OvalButton extends JButton implements MouseListener, MouseMotionLis
     public void mouseEntered(MouseEvent e) {
         if (isValidClickPosition(e.getLocationOnScreen())) {
             currentBackground = colorHighlighted;
+            setHighlightedBorder(true);
         }
         repaint();
     }
@@ -531,6 +532,7 @@ public class OvalButton extends JButton implements MouseListener, MouseMotionLis
     @Override
     public void mouseExited(MouseEvent e) {
         currentBackground = colorNormal;
+            setHighlightedBorder(false);
         repaint();
     }
 
@@ -538,9 +540,11 @@ public class OvalButton extends JButton implements MouseListener, MouseMotionLis
     public void mouseMoved(MouseEvent e) {
         if (isValidClickPosition(e.getLocationOnScreen())) {
             currentBackground = colorHighlighted;
+            setHighlightedBorder(true);
         }
         else {
             currentBackground = colorNormal;
+            setHighlightedBorder(false);
         }
         repaint();
     }
